@@ -41,7 +41,6 @@ export default function DiscreteSlider() {
   return (
     <div className={classes.root}>
       <Typography id="discrete-slider-always" gutterBottom>
-        Always visible
       </Typography>
       <Slider
         defaultValue={80}

@@ -12,7 +12,7 @@ class Gauge extends React.Component {
   endColor = '#dc143c'; // crimson
 
   render() {
-      const radius = 50;
+      const radius = 70;
       const interpolate = interpolateRgb(this.startColor, this.endColor);
       const fillColor = interpolate(this.state.value / 100);
       const gradientStops = [
