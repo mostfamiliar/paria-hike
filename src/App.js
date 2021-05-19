@@ -12,10 +12,11 @@ import MapContainer from './components/mapContainer';
 class App extends Component {
   state = {
     height: "",
+    month: 1
   }
 
   componentDidMount() {
-    fetch("http://localhost:5000/water_levels")
+    fetch(`http://localhost:5000/water_levels?month=${this.state.month}`)
     .then((response) => response.json())
     .then((results) => {
       this.state.height = results.height

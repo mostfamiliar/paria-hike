@@ -1,49 +1,86 @@
 import React from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import MobileStepper from '@material-ui/core/MobileStepper';
-import Button from '@material-ui/core/Button';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Slider from '@material-ui/core/Slider';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 400,
-    flexGrow: 1,
+    width: 350,
   },
-});
+  margin: {
+    height: theme.spacing(3),
+  },
+}));
+
+const marks = [
+  {
+    value: 0,
+    label: 'Jan',
+  },
+  {
+    value: 8,
+    label: 'Feb',
+  },
+  {
+    value: 16,
+    label: 'Mar',
+  },
+  {
+    value: 24,
+    label: 'Apr',
+  },
+  {
+    value: 32,
+    label: 'May',
+  },
+  {
+    value: 40,
+    label: 'Jun',
+  },
+  {
+    value: 48,
+    label: 'Jul',
+  },
+  {
+    value: 58,
+    label: 'Aug',
+  },
+  {
+    value: 68,
+    label: 'Sept',
+  },
+  {
+    value: 78 ,
+    label: 'Oct',
+  },
+  {
+    value: 90,
+    label: 'Nov',
+  },
+  {
+    value: 100,
+    label: 'Dec',
+  },
+];
+
+function valuetext(value) {
+  return `${value}°C`;
+}
 
 export default function ProgressMobileStepper() {
   const classes = useStyles();
-  const theme = useTheme();
-  const [activeStep, setActiveStep] = React.useState(0);
-
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
 
   return (
-    <MobileStepper
-      variant="progress"
-      steps={12}
-      position="static"
-      activeStep={activeStep}
-      className={classes.root}
-      nextButton={
-        <Button size="small" onClick={handleNext} disabled={activeStep === 11}>
-          December
-          {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-        </Button>
-      }
-      backButton={
-        <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-          {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-          January
-        </Button>
-      }
-    />
+    <div className={classes.root}>
+      <Typography id="track-false-slider" gutterBottom>
+      </Typography>
+      <Slider
+        track={false}
+        aria-labelledby="track-false-slider"
+        getAriaValueText={valuetext}
+        defaultValue={30}
+        marks={marks}
+      />
+    </div>
   );
 }
