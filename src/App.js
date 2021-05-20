@@ -11,15 +11,54 @@ import MapContainer from './components/mapContainer';
 
 class App extends Component {
   state = {
-    height: "",
-    month: 1
+    height: 0,
+    weather: 0,
+    month: 1,
+    trail: null
+  }
+
+  componentWillMount() {
+    this.fetchWater()
+    this.fetchTemperature()
   }
 
   componentDidMount() {
-    fetch(`http://localhost:5000/water_levels?month=${this.state.month}`)
+    this.populateMap()
+  }
+
+  updateMonth = text => {
+    this.setState({month: text})
+    this.fetchWater()
+    this.fetchTemperature()
+  }
+
+  populateMap = () => {
+    fetch(`http://localhost:5000/trail_routes`)
     .then((response) => response.json())
     .then((results) => {
-      this.state.height = results.height
+      this.setState({trail: results.route})
+    })
+    .catch((error) => {
+      this.setState({error: error})
+    });
+  }
+
+  fetchWater = () => {
+    fetch(`http://localhost:5000/streamflow?month=${this.state.month}`)
+    .then((response) => response.json())
+    .then((results) => {
+      this.setState({height: results.water_level})
+    })
+    .catch((error) => {
+      this.setState({error: error})
+    });
+  }
+
+  fetchTemperature = () => {
+    fetch(`http://localhost:5000/temperature?month=${this.state.month}`)
+    .then((response) => response.json())
+    .then((results) => {
+      this.setState({weather: results.temperature})
     })
     .catch((error) => {
       this.setState({error: error})
@@ -32,25 +71,20 @@ class App extends Component {
     <Grid container spacing={2}>
       <Grid item xs={4} style={{maxHeight: '100vh', overflow: 'auto'}}>
       <h1>Trip data: Backpacking Paria Canyon (White house to Lee's ferry)</h1>
-      <h4>Length:</h4>
-      <p>31 miles</p>
-      <h4>Elevation Change:</h4><p>1000 ft</p>
-      <h4>Select Month:</h4 >
       <Grid item xs={12}>
-        <MobileStepper />
+      <MobileStepper updateMonth={this.updateMonth} />
+        <h4>Streamflow by month:</h4 >
+        <Gauge data={this.state.height}/>
       </Grid>
-
         <Grid item xs={12}>
-        <h4>Water height:</h4>
-          <Gauge data={this.state.height}/>
-        </Grid>
-        <Grid item xs={12}>
+        <br/>
         <h4>Temperature: </h4>
-          <Temperature />
+          <Temperature weather={this.state.weather}/>
         </Grid>
+        <p>Sources: <a href="https://waterdata.usgs.gov/nwis/uv?site_no=09381800">USGS</a>, <a href="">NOAA</a></p>
       </Grid>
       <Grid item xs={8}>
-        <MapContainer />
+        <MapContainer trail={this.state.trail} />
       </Grid>
     </Grid>
     </Container>

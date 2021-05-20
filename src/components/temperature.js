@@ -35,15 +35,17 @@ function valuetext(value) {
   return `${value}°C`;
 }
 
-export default function DiscreteSlider() {
+export default function DiscreteSlider(props) {
+  console.log(props.weather)
   const classes = useStyles();
+  let value = props.weather ? props.weather : 0
 
   return (
     <div className={classes.root}>
       <Typography id="discrete-slider-always" gutterBottom>
       </Typography>
       <Slider
-        defaultValue={80}
+        value={value}
         getAriaValueText={valuetext}
         aria-labelledby="discrete-slider-always"
         step={10}

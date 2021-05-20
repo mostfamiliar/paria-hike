@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
@@ -18,57 +18,60 @@ const marks = [
     label: 'Jan',
   },
   {
-    value: 8,
+    value: 10,
     label: 'Feb',
   },
   {
-    value: 16,
+    value: 20,
     label: 'Mar',
   },
   {
-    value: 24,
+    value: 30,
     label: 'Apr',
   },
   {
-    value: 32,
+    value: 40,
     label: 'May',
   },
   {
-    value: 40,
+    value: 50,
     label: 'Jun',
   },
   {
-    value: 48,
+    value: 60,
     label: 'Jul',
   },
   {
-    value: 58,
+    value: 70,
     label: 'Aug',
   },
   {
-    value: 68,
+    value: 80,
     label: 'Sept',
   },
   {
-    value: 78 ,
+    value: 90,
     label: 'Oct',
   },
   {
-    value: 90,
+    value: 100,
     label: 'Nov',
   },
   {
-    value: 100,
+    value: 110,
     label: 'Dec',
   },
 ];
 
-function valuetext(value) {
-  return `${value}°C`;
-}
-
-export default function ProgressMobileStepper() {
+export default function ProgressMobileStepper(props) {
   const classes = useStyles();
+
+
+  const findMonth = value => {
+    const dictionary = {0: 1, 10: 2, 20: 3, 30: 4, 40: 5, 50: 6, 60: 7, 70: 8, 80: 9, 90: 10, 100: 11, 110: 12};
+    props.updateMonth(dictionary[value])
+  }
+
 
   return (
     <div className={classes.root}>
@@ -76,9 +79,11 @@ export default function ProgressMobileStepper() {
       </Typography>
       <Slider
         track={false}
+        step={null}
         aria-labelledby="track-false-slider"
-        getAriaValueText={valuetext}
-        defaultValue={30}
+        defaultValue={0}
+        onChange={(event, val) => findMonth(val)}
+        max={110}
         marks={marks}
       />
     </div>

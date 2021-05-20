@@ -5,11 +5,15 @@ import ReactDOM from 'react-dom';
 import LiquidFillGauge from 'react-liquid-gauge';
 
 class Gauge extends React.Component {
-  state = {
-      value: 50
-  };
+  constructor(props){
+      super(props)
+      this.state = {
+          height: this.props.data,
+          value: this.props.data + 80
+      }
+  }
+
   startColor = '#6495ed'; // cornflowerblue
-  endColor = '#dc143c'; // crimson
 
   render() {
       const radius = 70;
@@ -43,13 +47,14 @@ class Gauge extends React.Component {
                   width={radius * 2}
                   height={radius * 2}
                   value={this.state.value}
-                  percent="%"
+                  percent="cfs"
                   textSize={1}
                   textOffsetX={0}
                   textOffsetY={0}
                   textRenderer={(props) => {
-                      const value = Math.round(props.value);
+                      const value = this.props.data;
                       const radius = Math.min(props.height / 2, props.width / 2);
+                      // const radius = Math.min(props.height / 2, props.width / 2);
                       const textPixels = (props.textSize * radius / 2);
                       const valueStyle = {
                           fontSize: textPixels
@@ -84,9 +89,6 @@ class Gauge extends React.Component {
                       fill: color('#fff').toString(),
                       fontFamily: 'Arial'
                   }}
-                  onClick={() => {
-                      this.setState({ value: Math.random() * 100 });
-                  }}
               />
               <div
                   style={{
@@ -94,14 +96,6 @@ class Gauge extends React.Component {
                       width: 120
                   }}
               >
-                  <button
-                      type="button"
-                      className="btn btn-default btn-block"
-                      onClick={() => {
-                          this.setState({ value: Math.random() * 100 });
-                      }}
-                  >
-                  </button>
               </div>
           </div>
       );
