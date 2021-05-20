@@ -26,10 +26,14 @@ class App extends Component {
     this.populateMap()
   }
 
-  updateMonth = text => {
-    this.setState({month: text})
-    this.fetchWater()
-    this.fetchTemperature()
+  updateMonth = month => {
+    this.setState((state, props) => ({
+      month: month
+    }), ()=>{
+      this.fetchWater()
+      this.fetchTemperature()
+      console.log(this.state.month)
+    });
   }
 
   populateMap = () => {

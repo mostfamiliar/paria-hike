@@ -36,7 +36,6 @@ function valuetext(value) {
 }
 
 export default function DiscreteSlider(props) {
-  console.log(props.weather)
   const classes = useStyles();
   let value = props.weather ? props.weather : 0
 
